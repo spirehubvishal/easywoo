@@ -500,7 +500,7 @@ if ( 'rounded-image-block' === $listing_card_design || 'squared-image-block' ===
 		<div class="custom-country-rating-container">
 			<div class="custom-listar-country">
 				India
-			</div>
+			</div>gregeg
 			<?php
 			if ( false !== $listar_reviews_average ) :
 				?>
