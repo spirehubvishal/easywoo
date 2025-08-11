@@ -1,0 +1,23 @@
+This is a dumb content, exclusively for demonstration purpose.
+
+This file could contain a list of products and/or services, with respective pricings (or not).
+
+Example =============
+=====================
+=====================
+=====================
+
+NAME OF THE PRODUCT 1
+Quantity: 1
+Weight: 1Kg
+Price: $100
+
+NAME OF THE PRODUCT 2
+Quantity: 3
+Weight: 3Kg
+Price: $250
+
+NAME OF THE PRODUCT 3
+Quantity: 10
+Weight: 10Kg
+Price: $750

@@ -1,0 +1,18 @@
+/*
+ Theme Name:   Listar Child Theme
+ Theme URI:    http://listar.directory/
+ Author:       Web Design Trade
+ Description:  Listar is a WordPress directory theme that allows to build a listing website without require code skills. It is powered with Bootstrap, ensuring responsive layout and excellent navigation approach on every device and modern browsers. It was developed to present company listings, but you can easily adapt it to receive any kind of listings that fulfill your needs.
+ Version:      1.2.8
+ License:      GNU General Public License v3 or later
+ License URI:  http://www.gnu.org/licenses/gpl-3.0.html
+ Author URI:   https://themeforest.net/user/webdesigntrade
+ Template:     listar
+ Text Domain:  listar-child
+ Tags:         two-columns, one-column, right-sidebar, custom-header, featured-image-header, editor-style, custom-background, featured-images, custom-menu, footer-widgets, translation-ready
+*/
+ 
+/* ADD YOUR NEW CSS RULES HERE 
+This file assumes you wish to add new CSS rules that will overwrite the default CSS of Listar theme 
+Don't delete the header above: Please, remember that you still need to retain the header above, specifically the 'Template: listar' line. */
+/* Hide author box */
