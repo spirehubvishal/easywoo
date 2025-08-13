@@ -135,26 +135,7 @@ if ( 'rounded-image-block' === $listing_card_design || 'squared-image-block' ===
 		endif;
 		?>
 
-		<?php
-		$bookmarks_active = listar_bookmarks_active();
 
-		if ( $bookmarks_active ) :
-			$listar_user_id = is_user_logged_in() ? get_current_user_id() : 0;
-			$bookmarks_user_ids = ! empty( $listar_user_id ) ? listar_get_bookmarks_user_ids( $listar_current_post_id ) : '';
-			$bookmarks_counter = listar_bookmarks_get_counter( $listar_current_post_id );
-			$has_bookmarked_class = ! empty( $listar_user_id ) && in_array( $listar_user_id, $bookmarks_user_ids ) ? ' listar-bookmarked-item' : '';
-			?>
-			<div class="listar-bookmark-card-button-wrapper">
-				<div class="listar-bookmark-card-button <?php echo esc_attr( listar_sanitize_html_class( $has_bookmarked_class ) ); ?>">
-					<a href="#" class="listar-bookmark-it icon-heart" data-listing-id="<?php echo esc_attr( $listar_current_post_id ); ?>" data-user-id="<?php echo esc_attr( $listar_user_id ); ?>"></a>
-					<div class="listar-bookmark-counter" data-bookmark-counter="<?php echo esc_attr( $bookmarks_counter ); ?>">
-						<?php echo esc_html( $bookmarks_counter ); ?>
-					</div>
-				</div>
-			</div>
-			<?php
-		endif;
-		?>
 		<?php
 		if ( false !== $listar_reviews_average ) :
 			?>
@@ -310,6 +291,7 @@ if ( 'rounded-image-block' === $listing_card_design || 'squared-image-block' ===
 			endif;
 			?>
 			<?php
+			/*
 			if ( ! empty( $listar_region_link ) && ! empty( $listar_region_name ) ) :
 				?>
 				<a href="<?php echo esc_url( $listar_region_link ); ?>">
@@ -317,6 +299,7 @@ if ( 'rounded-image-block' === $listing_card_design || 'squared-image-block' ===
 				</a>
 			<?php
 			endif;
+			*/
 			?>
 		</div>
 	</div>
@@ -392,6 +375,7 @@ if ( 'rounded-image-block' === $listing_card_design || 'squared-image-block' ===
 				endif;
 				?>
 				<?php
+				/*
 				if ( ! empty( $listar_region_link ) && ! empty( $listar_region_name ) ) :
 					?>
 					<a href="<?php echo esc_url( $listar_region_link ); ?>">
@@ -399,8 +383,12 @@ if ( 'rounded-image-block' === $listing_card_design || 'squared-image-block' ===
 					</a>
 				<?php
 				endif;
+				*/
 				?>
 			</div>
+
+		</div>
+	</div>
 			<?php
 			$bookmarks_active = listar_bookmarks_active();
 
@@ -418,9 +406,6 @@ if ( 'rounded-image-block' === $listing_card_design || 'squared-image-block' ===
 				<?php
 			endif;
 			?>
-		</div>
-	</div>
-
 	<?php if ( $listar_has_address ) : ?>
 		<address class="listar-listing-address"></address>
 	<?php endif; ?>
@@ -499,17 +484,38 @@ if ( 'rounded-image-block' === $listing_card_design || 'squared-image-block' ===
 		<h6 class="listar-card-content-title"><?php echo esc_html( $listar_listing_title ); ?></h6>
 		<div class="custom-country-rating-container">
 			<div class="custom-listar-country">
-				India
-			</div>gregeg
-			<?php
-			if ( false !== $listar_reviews_average ) :
-				?>
-				<div class="custom-listar-listing-rating">
-					<?php echo wp_kses( $listar_reviews_average, 'listar-basic-html' ); ?>
-				</div>
 				<?php
-			endif;
-			?>
+					$city = get_post_meta( get_the_ID(), 'geolocation_city', true);
+					$country = get_post_meta( get_the_ID(), 'geolocation_country_short', true );
+					if($city || $country){
+						echo "<span class='custom-country'>$city, $country</span>";
+					}
+				?>
+			</div>
+<?php
+if ( false !== $listar_reviews_average ) :
+    $review_count = function_exists('listar_reviews_count') ? listar_reviews_count($listar_current_post_id) : 0;
+    ?>
+    <div class="custom-listar-listing-rating">
+        <?php if ( $review_count > 0 ) : ?>
+            <span style="color: #FFD700;">&#9733;</span>
+        <?php endif; ?>
+        <?php echo wp_kses( $listar_reviews_average, 'listar-basic-html' ); ?>
+        <span class="custom-review-count">
+            <?php
+            if ( $review_count === 0 ) {
+                echo '(No reviews)';
+            } else {
+                echo '(' . esc_html( $review_count ) . ' ' . ( $review_count === 1 ? 'review' : 'reviews' ) . ')';
+            }
+            ?>
+        </span>
+    </div>
+    <?php
+endif;
+?>
+
+
 		</div>
 
 	</div>
@@ -523,7 +529,7 @@ if ( 'rounded-image-block' === $listing_card_design || 'squared-image-block' ===
 	margin:0;
 }
 .listar-circular-wrapper .listar-card-content-image .listar-card-image-inner{
-	border-radius: 0;
+	border-radius: 16px;
 }
 .listar-circular-wrapper .listar-card-image-inner img{
 	border-radius: 16px !important;
@@ -536,12 +542,16 @@ if ( 'rounded-image-block' === $listing_card_design || 'squared-image-block' ===
 	padding:0;
 }
 .listar-card-content-data {
-	padding:16px !important;
+	display:flex;
+	flex-direction: column;
+	justify-content: end;
+	padding:20px !important;
 }
 .listar-card-content-data .listar-card-content-title{
 	color:#4A4A4A;
 	text-align: left;
 	text-shadow: none;
+	padding:0px 0px 20px;
 }
 .custom-country-rating-container{
 	display:flex;
@@ -575,13 +585,13 @@ if ( 'rounded-image-block' === $listing_card_design || 'squared-image-block' ===
     width: 75px;
 	height:75px;
 }
-.listar-circular-wrapper .listar-card-content-image .listar-bookmark-card-button{
+.listar-bookmark-card-button{
 	top:auto !important;
 	bottom:-60px;
 	right:0px;
 	border-radius: 8px;
 }
-.listar-circular-wrapper .listar-card-content-image .listar-bookmark-card-button::after{
+.listar-bookmark-card-button::after{
 	content:none;
 }
 .listar-listing-card .listar-open-or-closed {
@@ -593,8 +603,53 @@ if ( 'rounded-image-block' === $listing_card_design || 'squared-image-block' ===
 .listar-listing-card .listar-open-or-closed::before {
     content:none;
 }
-</style>
+main.site-main{
+	background-color: white !important;
+}
+.easywoo-filter-form{
+	justify-content: flex-start;
+}
+.easywoo-filter-form span.selection span.select2-selection{
+	border-radius: 8px !important;
+	border:none !important;
+	background-color: #FAFAFA !important;
+	color:#4a4a4a;
+}
+.listar-filter-form-wrapper{
+	border:none;
+}
+section.listar-section {
+    padding-top: 20px;
+}
+.listar-navigation .page-numbers{
+	border-radius: 8px !important;
+	border:none !important;
+	background-color: transparent !important;
 
+}
+.listar-navigation .page-numbers , .icon-chevron-left :hover{
+	background-color:#ff66001a;
+	color:#4a4a4a !important;
+}
+.listar-navigation .page-numbers.current{
+	background-color: #FF66001A !important;
+	color:#FF6600 !important;
+	
+}
+.easywoo-filter-form input::placeholder{
+	color:#4a4a4a;
+}
+.custom-listar-listing-rating .fa.listar-no-rating{
+	display: none;
+}
+@media( max-width: 778px){
+	.listar-bookmark-card-button-wrapper{
+		top:10px !important;
+	}
+}
+
+
+</style>
 
 	<?php
 endif;
